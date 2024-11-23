@@ -1,0 +1,122 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+
+
+<main class="container">
+    <div class="row mb-2">
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative bg-white">
+
+                <div class="d-grid gap-2 col-2 ms-4 mt-4">
+                    <img src="/media/message/email.png" alt="mdo" width="120" height="120">
+                </div>
+
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h2 class="mb-0 ms-3"><strong>{{ mailing.title }}</strong></h2>
+                    <div class="mb-1 mb-4 text-body-secondary">от {{ mailing.created_at }}</div>
+                    <h5 class="mb-0 mb-3"><strong>Тема
+                        сообщения: </strong>{{ mailing.message.title | truncatechars:35 }}</h5>
+
+                    <div class="row">
+                        <div class="col-5" class="mb-1 text-body-secondary">Дата начала отправки:</div>
+                        <div class="col" class="mb-1 text-body-secondary">{{ mailing.at_start }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5" class="mb-1 text-body-secondary">Дата следующей отправки:</div>
+                        <div class="col" class="mb-1 text-body-secondary">{{ current_datetime }}</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5" class="mb-1 text-body-secondary">Дата окончания отправки:</div>
+                        <div class="col" class="mb-1 text-body-secondary">{{ mailing.at_end }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5" class="mb-1 text-body-secondary">Периодичность отправки:</div>
+                        <div class="col" class="mb-1 text-body-secondary">{{ mailing.get_periodicity_display }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5" class="mb-1 text-body-secondary">Статус рассылки:</div>
+                        <div class="col" class="mb-1 text-body-secondary">{{ mailing.get_status_display }}</div>
+                    </div>
+
+                    <div class="col text-danger mt-2">
+                        {% if not mailing.is_active and not perms.mailing.change_mailing %}
+                        <strong>Рассылка отключена, обратитесь к администратору</strong>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="mb-0 mt-3 mb-1">В списке
+                        рассылки {{ mailing.clients.count }} {{ mailing.clients.count | clients_word_form }}:</h5>
+                    <ul>
+                        {% for client in mailing.clients.all %}
+                        <li>{{ client.first_name }} {{ client.last_name }}</li>
+                        <!-- Adjust fields as necessary -->
+                        {% empty %}
+                        <li>Нет клиентов для этой рассылки.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="d-grid gap-2 d-md-flex mt-5 justify-content-md-end">
+                        {% if perms.mailing.change_mailing %}
+
+                        {% if mailing.is_active %}
+                        <a class="btn btn-success" href="{% url 'messaging:toggle_activation' mailing.pk %}"
+                           role="button" style="width: 130px;">Отключить</a>
+                        {% else %}
+                        <a class="btn btn-danger" href="{% url 'messaging:toggle_activation' mailing.pk %}"
+                           role="button" style="width: 130px;">Включить</a>
+                        {% endif %}
+
+                        {% endif %}
+
+                        {% if mailing.owner == user %}
+                        <a class="btn btn-primary" href="{% url 'messaging:mailing_update' mailing.pk %}"
+                           role="button" style="width: 130px;">Редактировать</a>
+                        <a class="btn btn-primary" href="{% url 'messaging:mailing_delete' mailing.pk %}"
+                           role="button" style="width: 130px;">Удалить</a>
+                        {% endif %}
+
+                        <a class="btn btn-primary" href="{% url 'messaging:mailing_list' %}" role="button"
+                           style="width: 130px;">Назад</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative bg-white">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Название рассылки</th>
+                        <th>Статус</th>
+                        <th>Попытки</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ mailing.title }}</td>
+                        <td>{{ mailing.get_status_display }}</td>
+                        <td>
+                            <ul>
+                                {% for attempt in mailing.attempts.all %}
+                                <li>{{ attempt.at_last_attempt }}
+                                    - {{ attempt.get_status_display }}: {{ attempt.server_response }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

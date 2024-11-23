@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "course-work-6"
+version = "0.1.0"
+description = ""
+authors = ["Mikhail Polyakov <timadgi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.1"
+psycopg2-binary = "^2.9.10"
+black = "^24.10.0"
+pillow = "^11.0.0"
+pytils = "^0.4.1"
+redis = "^5.2.0"
+ipython = "^8.29.0"
+django = "4.2.2"
+pytz = "^2024.2"
+apscheduler = "^3.10.4"
+django-apscheduler = "^0.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

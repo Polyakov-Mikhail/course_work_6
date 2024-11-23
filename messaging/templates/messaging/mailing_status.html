@@ -1,0 +1,48 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+{% if user.is_authenticated %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Статусы рассылок</h1>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Название рассылки</th>
+                    <th>Статус</th>
+                    <th>Попытки</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mailing in mailings %}
+                <tr>
+                    <td>{{ mailing.title }}</td>
+                    <td>{{ mailing.get_status_display }}</td>
+                    <td>
+                        <ul>
+                            {% for attempt in mailing.attempts.all %}
+                            <li>{{ attempt.at_last_attempt }}
+                                    - {{ attempt.get_status_display }}: {{ attempt.server_response }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="col-12">
+        <h3> Для просмотра рассылок вам необходимо авторизоваться.</h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

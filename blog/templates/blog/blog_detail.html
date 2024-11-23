@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-10">
+            <div class="card mb-4 box-shadow">
+                {% if blog.image %}
+                <img src="{{ blog.image | media_filter }}" alt="mdo" width="400"
+                     height="400">
+                {% else %}
+                <img src="/media/blog/blog.jpg" alt="mdo" width="400"
+                     height="400">
+                {% endif %}
+                <div class="card-header">
+                    <h3 class="my-0 font-weight-normal">{{ object.title }} </h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Содержимое: {{object.content }}</p>
+                    <p class="card-text">Ссылка: {{ object.slug }}</p>
+                    <p class="card-text">Дата создания: {{ object.created_at }}</p>
+                    <p class="card-text">Кол-во просмотров: {{ object.count_views }}</p>
+                    <a class="btn btn-primary" href="{% url 'blog:blog_list' %}" role="button">Все статьи</a>
+                    <a class="btn btn-danger" href="{% url 'messaging:start' %}" role="button">В главное меню</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Сообщения</h1>
+</div>
+
+<div class="py-5 text-center container">
+    <div class="col-lg-12 col-md-8 mx-auto">
+        <p>
+            <a type="button" class="btn btn-lg btn-block btn-outline-success"
+               href="{% url 'messaging:message_create' %}">
+                Добавить сообщение</a>
+        </p>
+    </div>
+</div>
+
+<form method="post" action="" class="form-floating">
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for message in object_list %}
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row shadow-lg h-md-250 position-relative bg-white">
+
+                                <div class="col-2 mt-1 mb-1 d-none d-lg-block">
+                                    {% if message.preview %}
+                                    <img src="{{ message.preview | media_filter }}" alt="mdo" width="80"
+                                         height="80">
+                                    {% else %}
+                                    <img src="/media/message/email.png" alt="mdo" width="80"
+                                         height="80">
+                                    {% endif %}
+                                </div>
+
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <h4 class=><strong>{{ message.title }}</strong></h4>
+                                    <div class="text-body-secondary">{{ message.created_at }}</div>
+                                    <a href="{% url 'messaging:message_detail' message.pk %}"
+                                       class="icon-link gap-1 icon-link-hover stretched-link"></a>
+                                </div>
+                            </div>
+                            {% if user.is_authenticated %}
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{% url 'messaging:message_detail' message.pk %}"
+                                   role="button">Информация</a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-info" href="{% url 'messaging:message_update' message.pk %}"
+                                   role="button">Редактировать</a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-danger" href="{% url 'messaging:message_delete' message.pk %}"
+                                   role="button">Удалить</a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</form>
+{% else %}
+<div class="container">
+        <div class="col-12">
+            <h3> Для добавления сообщений для рассылок вам необходимо авторизоваться.</h3>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

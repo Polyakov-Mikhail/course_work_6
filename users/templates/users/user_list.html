@@ -1,0 +1,59 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Пользователи</h1>
+    <p class="lead">{{ title }}</p>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <table class="table">
+
+                <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Имя пользователя</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td><h5 class="text-success">{{ user.email }}</h5></td>
+                    <td><h5 class="text-success">{{ user.first_name }}</h5></td>
+                    <td><h5 class="text-success">{{ user.phone }}</h5></td>
+
+                    <td>{% if user.is_active %}
+                        <h5 class="text-success">Акивен</h5>
+                        {% else %}
+                        <h5 class="text-danger">Неактивен</h5>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% csrf_token %}
+                        <a href="{% url 'users:toggle_activation' user.pk %}">
+                            <img src={% if user.is_active %} "/media/users/вкл.png" {% else %}
+                            "/media/users/выкл.png" {% endif %} width="70" height="30" class="rounded float-end"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="col-12">
+        <h3> Для просмотра рассылок вам необходимо авторизоваться.</h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

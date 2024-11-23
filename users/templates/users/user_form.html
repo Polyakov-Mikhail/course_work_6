@@ -1,0 +1,38 @@
+{% load static %}
+
+<header data-bs-theme="dark">
+    {% include 'messaging/includes/inc_main.html' %}
+</header>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+</head>
+<body>
+
+<div class="col-12">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <h1>Регистрация</h1>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">
+                        Зарегестрироваться
+                    </button>
+                    <div class="btn-group">
+                        <a class="btn btn-danger" href="{% url 'messaging:start' %}" role="button">Отмена</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+</body>
+</html>

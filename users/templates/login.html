@@ -1,0 +1,52 @@
+{% load static %}
+
+<header data-bs-theme="dark">
+    {% include 'messaging/includes/inc_main.html' %}
+</header>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<div class="col-12">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <h1>Авторизация</h1>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-success">
+                            Войти
+                        </button>
+                        <div class="btn-group">
+                            <a class="btn btn-danger" href="{% url 'messaging:start' %}" role="button">Отмена</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group">
+                            <a class="btn btn-dark" href="{% url 'users:reset_password' %}" role="button">Восстановить
+                                пароль через генерацию</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="{% url 'users:password_reset' %}" role="button">Восстановить
+                                пароль самостоятельно</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

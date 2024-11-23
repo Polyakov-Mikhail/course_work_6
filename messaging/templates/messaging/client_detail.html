@@ -1,0 +1,52 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">{{ object.first_name|title }}</h1>
+</div>
+<main class="container">
+    <div class="row mb-2">
+        <div class="d-grid gap-2 col-8 mx-auto">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative bg-white">
+
+
+                <div class="row">
+                    <h5 class="col-5" class="mb-0 mb-3"><strong>Имя клиента: </strong></h5>
+                    <h5 class="col" class="mb-0 mb-3">{{ client.first_name }}</h5>
+                </div>
+
+                <div class="row">
+                    <h5 class="col-5" class="mb-0 mb-3"><strong>Фамилия клиента: </strong></h5>
+                    <h5 class="col" class="mb-0 mb-3">{{ client.last_name }}</h5>
+                </div>
+
+                <div class="row">
+                    <h5 class="col-5" class="mb-0 mb-3"><strong>Почта клиента: </strong></h5>
+                    <h5 class="col" class="mb-0 mb-3">{{ client.email }}</h5>
+                </div>
+
+                <p></p>
+
+                <div class="row">
+                    <h5 class="col-5" class="mb-0 mb-3"><strong>Комментарии: </strong></h5>
+                    <h5 class="col" class="mb-0 mb-3">
+                        {% if client.comment %}
+                        {{ client.comment }}
+                        {% else %}
+                        Комментарии отсутствуют
+                        {% endif %}
+                    </h5>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex mt-5 mb-3 justify-content-md-end">
+                    <a class="btn btn-primary me-3" href="{% url 'messaging:client_list' %}" role="button"
+                       style="width: 130px;">Вернутся на список клиентов</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

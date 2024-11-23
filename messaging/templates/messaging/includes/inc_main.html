@@ -1,0 +1,46 @@
+<div class="collapse text-bg-dark" id="navbarHeader">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-md-4 py-4">
+                <h4>Немного о проекте</h4>
+                <p class="text-body-secondary">В данном проекте выполнена курсовая работа №6 Полякова Михаила</p>
+            </div>
+            <div class="col-sm-4 col-md-4 py-4">
+                <h1>Django</h1>
+            </div>
+            <div class="ccol-sm-4 col-md-4 py-4">
+                <h4>Авторизация</h4>
+                <ul class="list-unstyled">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'users:logout' %}"
+                           class="text-white"><p><span style="color: #ff0000;">Выход</span></p></a></li>
+                    <li>
+                        <a href="{% url 'users:profile' %}"
+                           class="text-white"><p><span style="color: #32CD32;">Профиль</span></p></a></li>
+                    <li>
+                    <li>Ваш логин: {{ user.get_username }}</li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'users:login' %}"
+                           class="text-white"><p><span style="color: #32CD32;">Вход</span></p></a></li>
+                    <li>
+                        <a href="{% url 'users:register' %}"
+                           class="text-white">Регистрация</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+                aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>

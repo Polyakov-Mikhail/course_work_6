@@ -1,0 +1,39 @@
+{% extends 'blog/base.html' %}
+{% load my_tags %}
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for blog in blog_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+
+                    {% if blog.image %}
+                    <img src="{{ blog.image | media_filter }}" alt="mdo" width="400"
+                         height="400">
+                    {% else %}
+                    <img src="/media/blog/blog.jpg" alt="mdo" width="400"
+                         height="400">
+                    {% endif %}
+                    <div class="card-body">
+                        <h2>{{ blog }}</h2>
+                        <p class="card-text">{{ blog.content|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if user.is_authenticated %}
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{% url 'blog:blog_detail' blog.pk %}" role="button">Информация</a>
+                                <a class="btn btn-primary" href="{% url 'blog:blog_update' blog.pk %}" role="button">Редактирование</a>
+                                <a class="btn btn-primary" href="{% url 'blog:blog_delete' blog.pk %}" role="button">Удаление</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'messaging/base.html' %}
+{% load my_tags %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Рассылка</h1>
+    <p class="lead">{{ title }}</p>
+</div>
+<div class="py-5 text-center container">
+    <div class="col-lg-12 col-md-8 mx-auto">
+        {% if user.is_authenticated %}
+        <p>
+            <a type="button" class="btn btn-lg btn-block btn-outline-success"
+               href="{% url 'messaging:mailing_create' %}">
+                Добавить сообщение</a>
+        </p>
+        {% endif %}
+    </div>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for object in object_list %}
+            <div class="col-4">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">
+                            {{object.subject|title}}</h4>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">Сообщение:</h1>
+                            <h3 class="card-title pricing-card-title">{{ object.message }}</h3>
+                            <h6 class="card-title pricing-card-title">Статус рассылки: {{ object.get_status_display }}</h6>
+                            <h7 class="card-title pricing-card-title">Периодичность рассылки: {{ object.get_periodicity_display }}</h7>
+                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            </ul>
+                            <a type="button" class="btn btn-lg btn-block btn-outline-primary"
+                               href="{% url 'messaging:mailing_detail' object.pk %}">
+                                Подробнее
+                            </a>
+                            <a type="button" class="btn btn-lg btn-block btn-outline-warning"
+                               href="{% url 'messaging:mailing_update' object.pk %}">
+                                Изменить
+                            </a>
+                            <a type="button" class="btn btn-lg btn-block btn-outline-danger"
+                               href="{% url 'messaging:mailing_delete' object.pk %}">
+                                Удалить
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="col-12">
+        <h3> Для просмотра рассылок вам необходимо авторизоваться.</h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
