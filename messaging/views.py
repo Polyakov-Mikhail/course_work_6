@@ -188,8 +188,8 @@ class MailingCreateView(CreateView):
         form.fields['message'].queryset = Message.objects.filter(owner=self.request.user)
         return form
 
-    # def get_queryset(self):
-    #     return Mailing.objects.all()
+    def get_queryset(self):
+        return Mailing.objects.all()
 
 
 class MailingUpdateView(UpdateView):
