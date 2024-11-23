@@ -40,7 +40,7 @@ class MessageModeratorForm(StyleFormMixin, ModelForm):
 class MailingForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mailing
-        exclude = ("created_at", "status", "owner", "is_active")
+        exclude = ("created_at", "owner", "is_active")
 
 
 class MailingModeratorForm(StyleFormMixin, ModelForm):

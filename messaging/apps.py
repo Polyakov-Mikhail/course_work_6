@@ -9,12 +9,6 @@ class MessagingConfig(AppConfig):
     name = "messaging"
     verbose_name = "Рассылки"
 
-    # def ready(self):
-    #     import messaging.receivers
-    #     from messaging.scheduler import start_scheduler
-    #     sleep(1)
-    #     start_scheduler()
-
     def ready(self):
         if "runserver" in sys.argv and os.environ.get("RUN_MAIN") == "true":
             from messaging.scheduler import start_scheduler
